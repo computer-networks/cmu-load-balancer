@@ -44,26 +44,30 @@ project. We provide you a working Click program with an empty load balancer
 module. You only need to focus on developing the module named CMULoadBalancer.
 
 ### A very brief Click primer
-In the */click* folder of your container *router*, you will find the complete
+In the `/click` folder of your container `router`, you will find the complete
 source code of Click. The CMULoadBalancer module is implemented in two files
-named */click/elements/local/cmuloadbalancer.{cc,hh}*, you will need to keep
+named `/click/elements/local/cmuloadbalancer.{cc,hh}`, you will need to keep
 them where they are and make changes. Do not modify the existing function
 signatures but feel free to add your own helper functions and data structures.
 The existing code is heavily documented to show you how to manipulate packet
 headers.
 
 Click needs to be recompiled every time you make new changes. To do that, run:
-    $ cd /click
-    $ ./configure --enable-local
-    $ make elemlist
-    $ make -j $(nproc) install
+```
+$ cd /click
+$ ./configure --enable-local
+$ make elemlist
+$ make -j $(nproc) install
+```
 
 You can start Click to test the load balancer by feeding it a configuration. The
 Click configuration tells the Click binary how each routing component should be
 connected to function as a router together. A working configuration is provided
-in */p3_starter/cmu_load_balancer.click*. Run the following command to launch
+in `/p3_starter/cmu_load_balancer.click`. Run the following command to launch
 Click:
-    $ click /p3_starter/cmu_load_balancer.click
+```
+$ click /p3_starter/cmu_load_balancer.click
+```
 Keep in mind that routing only works when Click is running. You can ctrl-C to
 stop it.
 
@@ -71,22 +75,28 @@ stop it.
 The starter code implements a very simple static load balancing scheme. The
 clients all connect to a virtual IP:virtual port (i.e., 172.128.1.100:9876). The
 load balancer statically translates the vip:vport to a real backend IP:port and
-vice versa. You can verify this behavior by running the given *echo_client.py*
-and *echo_server.py* programs.
+vice versa. You can verify this behavior by running the given `echo_client.py`
+and `echo_server.py` programs.
 First, after you have set up the testbed, log into the router and start Click:
-    $ docker exec -it router /bin/bash
-    $ click /p3_starter/cmu_load_balancer.click
-Next, log into server1 and start the *echo_server*:
-    $ docker exec -it server1 /bin/bash
-    $ python3 /p3_starter/echo_server.py
-The *echo_server* will listen on port *7000* on *172.128.1.31*. Then, log into
-client1 and start the *echo_client*:
-    $ docker exec -it client1 /bin/bash
-    $ python3 /p3_starter/echo_client.py
-The *echo_client* will connect to port *9876* on *172.128.1.100*, which does not
+```
+$ docker exec -it router /bin/bash
+$ click /p3_starter/cmu_load_balancer.click
+```
+Next, log into server1 and start the `echo_server`:
+```
+$ docker exec -it server1 /bin/bash
+$ python3 /p3_starter/echo_server.py
+```
+The `echo_server` will listen on port `7000` on `172.128.1.31`. Then, log into
+client1 and start the `echo_client`:
+```
+$ docker exec -it client1 /bin/bash
+$ python3 /p3_starter/echo_client.py
+```
+The `echo_client` will connect to port `9876` on `172.128.1.100`, which does not
 exist anywhere on the testbed. But you should see that the client prints out a
 "hello world" message correctly. This means the Click router is doing its job.
-If you kill the Click router, *echo_server* and *echo_client* will no longer
+If you kill the Click router, `echo_server` and `echo_client` will no longer
 work.
   
 ## Web server
