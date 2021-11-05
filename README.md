@@ -10,8 +10,11 @@ works.
 | File/Folder | Use                                     |
 | :---------: | :-------------------------------------: |
 | apache2/    | Apache web server                       |
-| src/        | Src code containing Click router module |
 | www/        | A website with video                    |
+| src/cmu*    | Load balancer code (copied to /click)   |
+| src/echo*   | Simple echo server to test starter code |
+| src/loadgen.py | Load generator script that fetches video chunks from the server |
+| src/simple.load | Load config that tells loadgen.py how to generate loads |
 | Dockerfile  | Docker config                           |
 | README.md   | Readme file                             |
 | setup.sh    | Script to set up the docker testbed     |
@@ -100,4 +103,25 @@ If you kill the Click router, `echo_server` and `echo_client` will no longer
 work.
   
 ## Web server
+The same Apache web server is reused from the adaptive bitrate project to serve
+the same video traffic. Each server container has an Apache server running at
+port number `8000 + $(last decimal of server's IP of eth0)`. For example,
+`server1` with IP `172.128.1.31` will have its Apache running on port `8031`.
+You should not need to modify the Apache config or the website content for this
+project. If the Apache server crashes or needs a restart, you need to manually
+restart it: `/usr/local/apache2/bin/httpd -k restart`.
+
 ## Load generator
+`loadgen.py` and `simple.load` are the load generator facility we provide for
+testing. To use `loadgen.py`, run
+```
+$ cd /p3_starter
+$ python3 loadgen.py -e simple.load
+```
+This will generate HTTP GET requests to the server and fetch a set of video
+chunks. It allows a number of ways to fetch the video chunks: (1) fetching at
+a specified time, (2) fetching a specified bitrate, (3) fetching the chunks a
+number of times, and (4) sleep between fetching 2 chunks. Please read the
+comments of `simple.load` to get more details. Current load config only contains
+one simple test scenario, follow syntax and extend it or create a different load
+config for your own testing.
