@@ -9,7 +9,7 @@ RUN mkdir /var/www/ \
   && mkdir /p3_starter/
 
 # copy launch and test scripts
-ADD ./netsim/ /autograder/netsim/
+#ADD ./netsim/ /autograder/netsim/
 
 # copy apache binary, configuration and binary
 ADD ./www/ /var/www/
@@ -38,4 +38,4 @@ RUN cd /click \
   && make elemlist \
   && make -j $(nproc) install
 
-RUN echo "/p3_starter/add_route.sh" >> /root/.bashrc
+RUN echo "/p3_starter/init.sh" >> /root/.bashrc
