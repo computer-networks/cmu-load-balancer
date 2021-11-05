@@ -23,8 +23,8 @@ works.
   1. Execute ./setup.sh from terminal. This script builds a docker image and
   launches a set of containers.
   2. When the script finishes, you can log into each container. The complete
-  set of container names is: router, client[123], server[123]. Run this command
-  to log into one of them:
+  set of container names is: router, client[12345], server[123]. Run this
+  command to log into one of them:
   `docker exec -it [container_name] /bin/bash`.
 
 ## Click modular router
