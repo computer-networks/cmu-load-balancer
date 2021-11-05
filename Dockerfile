@@ -8,9 +8,6 @@ RUN mkdir /var/www/ \
   && mkdir /autograder/netsim \
   && mkdir /p3_starter/
 
-# copy launch and test scripts
-#ADD ./netsim/ /autograder/netsim/
-
 # copy apache binary, configuration and binary
 ADD ./www/ /var/www/
 
