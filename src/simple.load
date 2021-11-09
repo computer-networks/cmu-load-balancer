@@ -1,7 +1,7 @@
 # This file contains a list of load events to execute in the network testbed.
 # Each load events could be defined as follows:
 #
-# <start_time> <vip> <vport> <bitrate> <interval> <chunk_num> <threads>
+# <start_time> <vip> <vport> <enum_size> <interval> <chunk_num>
 #
 # start_time: start time (in seconds) after this script starts to be executed.
 #
@@ -9,13 +9,13 @@
 #             
 # vport:      virtual port number that the clients should connect to.
 #             
-# bitrate:    the bitrate of the chunks to be fetched in a load event.
+# enum_size:  the size of the chunks to be fetched in a load event, must be one
+#             of the three: 100, 500, 1000 (corresponding to small, medium,
+#             large).
 #             
 # interval:   the time interval in seconds (can be float) before fetching next
 #             chunk in a load event.
 #             
 # chunk_num:  the number of chunks to be fetched in a load event.
 
-# start at 0s, server at 172.128.1.100:9876, fetch chunk with bitrate 1000,
-# interval is 0s, fetch 10 chunks
 0 172.128.1.100 9876 1000 0 1
