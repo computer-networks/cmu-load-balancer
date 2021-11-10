@@ -1,4 +1,4 @@
-# cmuloadbalancer
+# cmu-load-balancer
 ## Introduction
 This folder contains the files to build a Docker testbed with all the
 dependencies you need for developing the load balancer.
