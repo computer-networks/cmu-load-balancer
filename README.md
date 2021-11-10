@@ -2,8 +2,8 @@
 ## Introduction
 This folder contains the files to build a Docker testbed with all the
 dependencies you need for developing the load balancer.
-First make sure docker is installed on your machine. It is highly recommended
-to read [Docker Document](https://docs.docker.com/) and understand how docker
+First, make sure that Docker is installed on your machine. It is highly recommended
+to read the [Docker documentation](https://docs.docker.com/) and understand how Docker
 works. 
 
 ## Content
@@ -11,27 +11,27 @@ works.
 | :---------: | :-------------------------------------: |
 | apache2/    | Apache web server                       |
 | www/        | A website with video                    |
-| src/cmu*    | Load balancer code (copied to /click)   |
+| src/cmu*    | Load balancer code (copied to `/click`) |
 | src/echo*   | Simple echo server to test starter code |
 | src/loadgen.py | Load generator script that fetches video chunks from the server |
-| src/simple.load | Load config that tells loadgen.py how to generate loads |
+| src/simple.load | Load config that tells `loadgen.py` how to generate loads |
 | Dockerfile  | Docker config                           |
-| README.md   | Readme file                             |
+| README.md   | This file                               |
 | setup.sh    | Script to set up the docker testbed     |
 
 ## Set up the testbed
-  1. Execute ./setup.sh from terminal. This script builds a docker image and
+  1. Execute `./setup.sh` from a terminal. This script builds a Docker image and
   launches a set of containers.
   2. When the script finishes, you can log into each container. The complete
   set of container names is: router, client[12345], server[123]. Run this
-  command to log into one of them:
+  command to log in to one of them:
   `docker exec -it [container_name] /bin/bash`.
 
 ## Click modular router
 This load balancer is designed to operate on L4, which means it can balance
-load based on the information in link layer, network layer and transport layer,
-but *NOT* in application layer.
-This is a transparent load balancer so it does not terminate TCP connections and
+load based on the information in the link layer, network layer and transport layer,
+but *NOT* in the application layer.
+This is a transparent load balancer so it does not terminate TCP connections;
 both clients and servers should not be aware of it. Therefore, the best way to
 implement this network function is to make it look like a router box. But note
 that it is not a router, for example it does not necessarily respond to pings.
@@ -40,15 +40,15 @@ that exposes a security risk.)
 
 The [Click modular router](https://github.com/kohler/click#readme) is a powerful
 software router that enables fast prototyping of various network functions. All
-of the routing and processing is done in software so you have all the
+of the routing and processing is done in software so you have 
 flexibility to customize your load balancer. Since Click itself is quite
 complicated, mastering the whole Click architecture is out of the scope of this
 project. We provide you a working Click program with an empty load balancer
-module. You only need to focus on developing the module named CMULoadBalancer.
+module. You only need to focus on developing the module named `CMULoadBalancer`.
 
 ### A very brief Click primer
 In the `/click` folder of your container `router`, you will find the complete
-source code of Click. The CMULoadBalancer module is implemented in two files
+source code of Click. The `CMULoadBalancer` module is implemented in two files
 named `/click/elements/local/cmuloadbalancer.{cc,hh}`, you will need to keep
 them where they are and make changes. Do not modify the existing function
 signatures but feel free to add your own helper functions and data structures.
@@ -71,8 +71,8 @@ Click:
 ```
 $ click /p3_starter/cmu_load_balancer.click
 ```
-Keep in mind that routing only works when Click is running. You can ctrl-C to
-stop it.
+Keep in mind that **routing only works when Click is running**. You can Ctrl-C to
+stop Click.
 
 ### CMU Load Balancer
 The starter code implements a very simple static load balancing scheme. The
@@ -80,18 +80,18 @@ clients all connect to a virtual IP:virtual port (i.e., 172.128.1.100:9876). The
 load balancer statically translates the vip:vport to a real backend IP:port and
 vice versa. You can verify this behavior by running the given `echo_client.py`
 and `echo_server.py` programs.
-First, after you have set up the testbed, log into the router and start Click:
+First, after you have set up the testbed, log into the router container and start Click:
 ```
 $ docker exec -it router /bin/bash
 $ click /p3_starter/cmu_load_balancer.click
 ```
-Next, log into server1 and start the `echo_server`:
+Next, log into `server1` and start the `echo_server`:
 ```
 $ docker exec -it server1 /bin/bash
 $ python3 /p3_starter/echo_server.py
 ```
 The `echo_server` will listen on port `7000` on `172.128.1.31`. Then, log into
-client1 and start the `echo_client`:
+`client1` and start the `echo_client`:
 ```
 $ docker exec -it client1 /bin/bash
 $ python3 /p3_starter/echo_client.py
@@ -103,9 +103,9 @@ If you kill the Click router, `echo_server` and `echo_client` will no longer
 work.
   
 ## Web server
-The same Apache web server is reused from the adaptive bitrate project to serve
+The same Apache web server is reused from the adaptive bitrate checkpoint to serve
 the same video traffic. Each server container has an Apache server running at
-port number `8000 + $(last decimal of server's IP of eth0)`. For example,
+port number `8000 + $(last octet of server's IP of eth0)`. For example,
 `server1` with IP `172.128.1.31` will have its Apache running on port `8031`.
 You should not need to modify the Apache config or the website content for this
 project. If the Apache server crashes or needs a restart, you need to manually
@@ -121,7 +121,7 @@ $ python3 loadgen.py -e simple.load
 This will generate HTTP GET requests to the server and fetch a set of video
 chunks. It allows a number of ways to fetch the video chunks: (1) fetching at
 a specified time, (2) fetching a specified bitrate, (3) fetching the chunks a
-number of times, and (4) sleep between fetching 2 chunks. Please read the
-comments of `simple.load` to get more details. Current load config only contains
-one simple test scenario, follow syntax and extend it or create a different load
+number of times, and (4) sleep between fetching successive chunks. Please read the project handout and the
+comments of `simple.load` for more details. The current load config only contains
+one simple test scenario. Follow the syntax and extend it to create a different load
 config for your own testing.
