@@ -1,4 +1,4 @@
-# Project 3, Checkpoint 2: Flow-level Load Balancer
+# Project 3, Checkpoint 2: Flow-Level Load Balancer
 
 ## Introduction
 This folder contains the files to build a Docker testbed with all the
