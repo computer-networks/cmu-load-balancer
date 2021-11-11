@@ -1,4 +1,5 @@
-# cmu-load-balancer
+# Project 3, Checkpoint 2: Flow-level Load Balancer
+
 ## Introduction
 This folder contains the files to build a Docker testbed with all the
 dependencies you need for developing the load balancer.
